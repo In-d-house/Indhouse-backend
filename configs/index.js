@@ -8,6 +8,7 @@ module.exports = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    dbName: "indhouse",
   },
   corsOptions: {
     origin: true,
