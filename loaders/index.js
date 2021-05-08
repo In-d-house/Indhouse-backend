@@ -5,9 +5,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 
 const { corsOptions } = require("../configs");
-const dbLoader = require("../configs/db");
+const dbLoader = require("./db");
 
-const initLoaders = app => {
+const initLoaders = (app) => {
   app.use(helmet());
   app.use(cors(corsOptions));
   app.use(logger("dev"));

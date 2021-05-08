@@ -15,4 +15,5 @@ module.exports = {
     credentials: true,
     httpOnly: true,
   },
+  saltRound: Number(process.env.SALT_ROUND),
 };
