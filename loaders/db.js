@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const { databaseUrl, mongooseOptions } = require("./index");
+const { databaseUrl, mongooseOptions } = require("../configs/index");
 
 const dbLoader = () => {
   mongoose.connect(databaseUrl, mongooseOptions);

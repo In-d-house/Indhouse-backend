@@ -16,5 +16,7 @@ module.exports = {
     "no-unused-vars": "warn",
     "no-console": 0,
     "no-param-reassign": 0,
+    "newline-per-chained-call": 0,
+    "consistent-return": 0,
   },
 };

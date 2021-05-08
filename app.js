@@ -5,14 +5,14 @@ const mongoose = require("mongoose");
 const { port } = require("./configs");
 const initLoaders = require("./loaders");
 
-const indexRouter = require("./routes");
+const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users");
 
 const app = express();
 
 initLoaders(app);
 
-app.use("/", indexRouter);
+app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 
 app.use((req, res, next) => {
