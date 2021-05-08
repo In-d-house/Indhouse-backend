@@ -46,13 +46,13 @@ exports.localLogin = async (req, res, next) => {
       return;
     }
 
-    const token = await jwt.sign({ email }, jwtSecretKey, { expiresIn: "7d" });
+    const token = await jwt.sign({ email, _id: user._id }, jwtSecretKey, { expiresIn: "7d" });
     const expiresDate = new Date(Date.now() + 1 * 3600000);
 
     res
       .status(200)
       .cookie("authorization", token, { expiresIn: expiresDate, httpOnly: false })
-      .json({ result: "success", token });
+      .json({ result: "success", token, user });
   } catch {
     next(createError(400, "Login Error"));
   }
@@ -71,13 +71,13 @@ exports.socialLogin = async (req, res, next) => {
       });
     }
 
-    const token = await jwt.sign({ email }, jwtSecretKey, { expiresIn: "7d" });
+    const token = await jwt.sign({ email, _id: user._id }, jwtSecretKey, { expiresIn: "7d" });
     const expiresDate = new Date(Date.now() + 1 * 3600000);
 
     res
       .status(200)
       .cookie("user_token", token, { expiresIn: expiresDate, httpOnly: true })
-      .json({ result: "success", token });
+      .json({ result: "success", token, user });
   } catch {
     next(createError(400, "Login Error"));
   }
@@ -133,5 +133,16 @@ exports.signup = async (req, res, next) => {
       .json({ result: "success" });
   } catch {
     next(createError(400));
+  }
+};
+
+exports.logout = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("authorization")
+      .status(200)
+      .json({ result: "success" });
+  } catch {
+    next(createError(500, "로그아웃에 실패했습니다."));
   }
 };
