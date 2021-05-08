@@ -18,5 +18,6 @@ module.exports = {
     "no-param-reassign": 0,
     "newline-per-chained-call": 0,
     "consistent-return": 0,
+    "no-underscore-dangle": 0,
   },
 };
