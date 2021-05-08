@@ -15,5 +15,6 @@ module.exports = {
     credentials: true,
     httpOnly: true,
   },
+  jwtSecretKey: process.env.JWT_SECRET_KEY,
   saltRound: Number(process.env.SALT_ROUND),
 };
