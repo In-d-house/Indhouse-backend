@@ -14,7 +14,11 @@ exports.localLogin = async (req, res, next) => {
       .required(),
 
     password: Joi.string()
-      .min(6)
+      .min(4)
+      .required(),
+
+    checkPassword: Joi.string()
+      .min(4)
       .required(),
   });
 
@@ -96,7 +100,10 @@ exports.signup = async (req, res, next) => {
       .required(),
 
     password: Joi.string()
-      .min(6)
+      .min(4)
+      .required(),
+    checkPassword: Joi.string()
+      .min(4)
       .required(),
   });
 
@@ -115,7 +122,7 @@ exports.signup = async (req, res, next) => {
     if (user) {
       res
         .status(400)
-        .json({ result: "exist email" });
+        .json({ error: "exist email" });
       return;
     }
 
