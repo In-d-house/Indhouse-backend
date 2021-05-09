@@ -14,7 +14,7 @@ exports.localLogin = async (req, res, next) => {
       .required(),
 
     password: Joi.string()
-      .min(6)
+      .min(4)
       .required(),
   });
 
@@ -49,10 +49,18 @@ exports.localLogin = async (req, res, next) => {
     const token = await jwt.sign({ email, _id: user._id }, jwtSecretKey, { expiresIn: "7d" });
     const expiresDate = new Date(Date.now() + 1 * 3600000);
 
+    const profile = {
+      _id: user._id,
+      name: user.name,
+      photoUrl: user.photoUrl,
+      likeMusic: user.likeMusic,
+      token,
+    };
+
     res
       .status(200)
       .cookie("authorization", token, { expiresIn: expiresDate, httpOnly: false })
-      .json({ result: "success", token, user });
+      .json({ result: "success", profile });
   } catch {
     next(createError(400, "Login Error"));
   }
@@ -60,12 +68,13 @@ exports.localLogin = async (req, res, next) => {
 
 exports.socialLogin = async (req, res, next) => {
   const { name, email } = req.body;
+  let user = null;
 
   try {
-    const user = await User.findOne({ email });
+    user = await User.findOne({ email });
 
     if (!user) {
-      await User.create({
+      user = await User.create({
         name,
         email,
       });
@@ -74,10 +83,18 @@ exports.socialLogin = async (req, res, next) => {
     const token = await jwt.sign({ email, _id: user._id }, jwtSecretKey, { expiresIn: "7d" });
     const expiresDate = new Date(Date.now() + 1 * 3600000);
 
+    const profile = {
+      _id: user._id,
+      name: user.name,
+      photoUrl: user.photoUrl,
+      likeMusic: user.likeMusic,
+      token,
+    };
+
     res
       .status(200)
       .cookie("user_token", token, { expiresIn: expiresDate, httpOnly: true })
-      .json({ result: "success", token, user });
+      .json({ result: "success", profile });
   } catch {
     next(createError(400, "Login Error"));
   }
@@ -96,7 +113,10 @@ exports.signup = async (req, res, next) => {
       .required(),
 
     password: Joi.string()
-      .min(6)
+      .min(4)
+      .required(),
+    checkPassword: Joi.string()
+      .min(4)
       .required(),
   });
 
@@ -115,7 +135,7 @@ exports.signup = async (req, res, next) => {
     if (user) {
       res
         .status(400)
-        .json({ result: "exist email" });
+        .json({ error: "exist email" });
       return;
     }
 

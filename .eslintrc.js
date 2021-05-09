@@ -1,4 +1,3 @@
-/* eslint-disable quote-props */
 module.exports = {
   "env": {
     "browser": true,
@@ -10,14 +9,14 @@ module.exports = {
     "ecmaVersion": 12,
   },
   "rules": {
-    eqeqeq: ["error", "always"],
-    quotes: ["error", "double", { "allowTemplateLiterals": true }],
+    "eqeqeq": ["error", "always"],
+    "quotes": ["warn", "double", { "allowTemplateLiterals": true }],
     "quote-props": ["error", "consistent"],
-    "no-unused-vars": "warn",
-    "no-console": 0,
-    "no-param-reassign": 0,
-    "newline-per-chained-call": 0,
-    "consistent-return": 0,
-    "no-underscore-dangle": 0,
+    "no-unused-vars": ["off"],
+    "no-console": ["off"],
+    "newline-per-chained-call": ["off"],
+    "consistent-return": ["off"],
+    "no-underscore-dangle": ["off"],
+    "arrow-parens": ["warn", "as-needed"],
   },
 };
