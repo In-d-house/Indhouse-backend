@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
     musicId: { type: ObjectId, ref: "Music", required: true },
     createdAt: { type: String, required: true },
   }],
+  likeGenre: [{
+    genreId: { type: ObjectId, ref: "Genre", required: true },
+  }],
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
