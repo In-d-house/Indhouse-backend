@@ -54,6 +54,7 @@ exports.localLogin = async (req, res, next) => {
       name: user.name,
       photoUrl: user.photoUrl,
       likeMusic: user.likeMusic,
+      likeGenre: user.likeGenre,
       token,
     };
 
@@ -88,6 +89,7 @@ exports.socialLogin = async (req, res, next) => {
       name: user.name,
       photoUrl: user.photoUrl,
       likeMusic: user.likeMusic,
+      likeGenre: user.likeGenre,
       token,
     };
 
