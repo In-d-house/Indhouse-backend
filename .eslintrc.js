@@ -18,5 +18,6 @@ module.exports = {
     "consistent-return": ["off"],
     "no-underscore-dangle": ["off"],
     "arrow-parens": ["warn", "as-needed"],
+    "camelcase": ["off"],
   },
 };
