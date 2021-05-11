@@ -10,6 +10,13 @@ module.exports = {
     useFindAndModify: false,
     dbName: "indhouse",
   },
+  awsConfig: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: process.env.AWS_REGION,
+  },
+  musicPhotoBucket: process.env.AWS_MUSIC_PHOTO_BUCKET,
+  userPhotoBucket: process.env.AWS_USER_PHOTO_BUCKET,
   corsOptions: {
     origin: true,
     credentials: true,
