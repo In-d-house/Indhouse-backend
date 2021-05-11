@@ -7,6 +7,7 @@ const initLoaders = require("./loaders");
 
 const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users");
+const musicsRouter = require("./routes/musics");
 
 const app = express();
 
@@ -14,6 +15,7 @@ initLoaders(app);
 
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
+app.use("/musics", musicsRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
@@ -26,8 +28,9 @@ app.use((err, req, res) => {
     err.stack = null;
   }
 
-  res.status(err.status || 500);
-  res.json(err);
+  res
+    .status(err.status || 500)
+    .json(err);
 });
 
 app.listen(port || 5000, () => {

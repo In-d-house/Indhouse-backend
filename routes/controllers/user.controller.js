@@ -7,7 +7,7 @@ const User = require("../../models/User");
 
 const { jwtSecretKey, saltRound } = require("../../configs");
 
-exports.localLogin = async (req, res, next) => {
+const localLogin = async (req, res, next) => {
   const schema = Joi.object().keys({
     email: Joi.string()
       .email()
@@ -54,6 +54,7 @@ exports.localLogin = async (req, res, next) => {
       name: user.name,
       photoUrl: user.photoUrl,
       likeMusic: user.likeMusic,
+      likeGenre: user.likeGenre,
       token,
     };
 
@@ -66,7 +67,7 @@ exports.localLogin = async (req, res, next) => {
   }
 };
 
-exports.socialLogin = async (req, res, next) => {
+const socialLogin = async (req, res, next) => {
   const { name, email } = req.body;
   let user = null;
 
@@ -88,6 +89,7 @@ exports.socialLogin = async (req, res, next) => {
       name: user.name,
       photoUrl: user.photoUrl,
       likeMusic: user.likeMusic,
+      likeGenre: user.likeGenre,
       token,
     };
 
@@ -100,7 +102,7 @@ exports.socialLogin = async (req, res, next) => {
   }
 };
 
-exports.signup = async (req, res, next) => {
+const signup = async (req, res, next) => {
   const schema = Joi.object().keys({
     name: Joi.string()
       .alphanum()
@@ -156,7 +158,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.logout = async (req, res, next) => {
+const logout = async (req, res, next) => {
   try {
     res
       .clearCookie("authorization")
@@ -165,4 +167,11 @@ exports.logout = async (req, res, next) => {
   } catch {
     next(createError(500, "로그아웃에 실패했습니다."));
   }
+};
+
+module.exports = {
+  localLogin,
+  socialLogin,
+  signup,
+  logout,
 };
