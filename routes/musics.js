@@ -4,6 +4,7 @@ const { uploadMusicCoverPhoto } = require("./middlewares/uploadPhoto");
 
 const router = express.Router();
 
-router.post("/cover-photo", uploadMusicCoverPhoto, musicController.uploadPhoto);
+router.post("/", musicController.createMusic);
+router.patch("/cover-photo", uploadMusicCoverPhoto, musicController.uploadCoverPhoto);
 
 module.exports = router;

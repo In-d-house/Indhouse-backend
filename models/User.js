@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   photoUrl: {
     type: String,
-    default: null,
+    default: "https://in-d-house.s3.ap-northeast-2.amazonaws.com/user-profile-photo/1620828402457defaultUserPhoto.png",
   },
   likeMusic: [{
     musicId: { type: ObjectId, ref: "Music", required: true },
