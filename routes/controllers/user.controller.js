@@ -178,7 +178,7 @@ const editProfileName = async (req, res, next) => {
 
     res
       .status(201)
-      .json({ result: "success", name });
+      .json({ result: "success", payload: name });
   } catch {
     next(createError(400, "프로필 이름 수정에 실패했습니다."));
   }
@@ -193,7 +193,7 @@ const editProfilePhoto = async (req, res, next) => {
 
     res
       .status(201)
-      .json({ result: "success", location });
+      .json({ result: "success", payload: location });
   } catch {
     next(createError(400, "프로필 사진 수정에 실패했습니다."));
   }
