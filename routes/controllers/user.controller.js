@@ -165,7 +165,37 @@ const logout = async (req, res, next) => {
       .status(200)
       .json({ result: "success" });
   } catch {
-    next(createError(500, "로그아웃에 실패했습니다."));
+    next(createError(400, "로그아웃에 실패했습니다."));
+  }
+};
+
+const editProfileName = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const { name } = req.body;
+
+    await User.findByIdAndUpdate(user_id, { name });
+
+    res
+      .status(201)
+      .json({ result: "success", name });
+  } catch {
+    next(createError(400, "프로필 이름 수정에 실패했습니다."));
+  }
+};
+
+const editProfilePhoto = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const { location } = req.file;
+
+    await User.findByIdAndUpdate(user_id, { photoUrl: location });
+
+    res
+      .status(201)
+      .json({ result: "success", location });
+  } catch {
+    next(createError(400, "프로필 사진 수정에 실패했습니다."));
   }
 };
 
@@ -174,4 +204,6 @@ module.exports = {
   socialLogin,
   signup,
   logout,
+  editProfileName,
+  editProfilePhoto,
 };
