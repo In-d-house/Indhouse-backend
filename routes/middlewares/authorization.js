@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const { jwtSecretKey } = require("../../configs");
 
-const verifyToken = (req, res, next) => {
+const verifyToken = (req, _, next) => {
   try {
     const { user_id } = req.params;
     const token = req.headers.authorization;
