@@ -18,7 +18,7 @@ const musicSchema = new mongoose.Schema({
     ref: "Genre",
     required: true,
   },
-  coverUrl: {
+  coverPhotoUrl: {
     type: String,
     required: true,
   },
