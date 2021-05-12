@@ -10,7 +10,7 @@ const uploadUserPhoto = multer({
     bucket: userPhotoBucket,
     acl: "public-read-write",
     contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: (req, file, cb) => cb(null, `${Date.now()}${file.originalname.split(".")[0]}`),
+    key: (req, file, cb) => cb(null, `${Date.now()}${file.originalname}`),
   }),
 }).single("photo");
 
@@ -20,7 +20,7 @@ const uploadMusicCoverPhoto = multer({
     bucket: musicPhotoBucket,
     acl: "public-read-write",
     contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: (req, file, cb) => cb(null, `${Date.now()}${file.originalname.split(".")[0]}`),
+    key: (req, file, cb) => cb(null, `${Date.now()}${file.originalname}`),
   }),
 }).single("photo");
 
