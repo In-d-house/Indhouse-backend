@@ -4,6 +4,9 @@ const Music = require("../../models/Music");
 const Artist = require("../../models/Artist");
 const Genre = require("../../models/Genre");
 
+const getAll = async (req, res, next) => {
+};
+
 const createMusic = async (req, res, next) => {
   try {
     const { music } = req.body;
@@ -61,6 +64,7 @@ const uploadCoverPhoto = async (req, res, next) => {
 };
 
 module.exports = {
+  getAll,
   createMusic,
   uploadCoverPhoto,
 };
