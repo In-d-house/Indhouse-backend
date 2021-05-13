@@ -22,10 +22,10 @@ const musicSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  likeCount: {
-    type: Number,
-    default: 0,
-  },
+  likeUser: [{
+    userId: { type: ObjectId, ref: "User", required: true },
+    createdAt: { type: Date, required: true },
+  }],
 }, { timestamps: true });
 
 module.exports = mongoose.model("Music", musicSchema);
