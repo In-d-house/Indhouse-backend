@@ -4,7 +4,24 @@ const Music = require("../../models/Music");
 const Artist = require("../../models/Artist");
 const Genre = require("../../models/Genre");
 
-const getAll = async (req, res, next) => {
+const getRecommendMusicByGenre = async (req, res, next) => {
+  try {
+    const { query } = req;
+
+    const option = Object.values(query)[0].map(value => ({
+      [Object.keys(query)[0]]: value,
+    }));
+
+    const musics = await Music.find({
+      $or: option,
+    });
+
+    res
+      .status(200)
+      .json({ result: "success", musics });
+  } catch {
+    next(createError(400, "음악 정보를 가져오지 못했습니다."));
+  }
 };
 
 const createMusic = async (req, res, next) => {
@@ -63,8 +80,50 @@ const uploadCoverPhoto = async (req, res, next) => {
   }
 };
 
+const updateLikeUser = async (req, res, next) => {
+  try {
+    const { music_id } = req.params;
+    const { user_id } = req.params;
+    const { type } = req.query;
+
+    const date = new Date();
+
+    if (type === "like") {
+      const user = {
+        userId: user_id,
+        createdAt: date,
+      };
+
+      await Music.findByIdAndUpdate(music_id, {
+        $push: {
+          likeUser: user,
+        },
+      });
+    }
+
+    if (type === "dislike") {
+      await Music.findByIdAndUpdate(music_id, {
+        $pull: {
+          likeUser: {
+            userId: {
+              $eq: user_id,
+            },
+          },
+        },
+      });
+    }
+
+    res
+      .status(200)
+      .json({ result: "success" });
+  } catch (err) {
+    next(createError(400, err));
+  }
+};
+
 module.exports = {
-  getAll,
+  getRecommendMusicByGenre,
   createMusic,
   uploadCoverPhoto,
+  updateLikeUser,
 };

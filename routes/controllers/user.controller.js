@@ -231,7 +231,13 @@ const editLikeGenre = async (req, res, next) => {
     const { user_id } = req.params;
     const { genres } = req.body;
 
-    await User.findByIdAndUpdate(user_id, { likeGenre: genres }, { new: true });
+    await User.findByIdAndUpdate(user_id, {
+      $push: {
+        likeGenre: {
+          $each: genres,
+        },
+      },
+    });
 
     res
       .status(201)
