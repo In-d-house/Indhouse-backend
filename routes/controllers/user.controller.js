@@ -102,6 +102,33 @@ const socialLogin = async (req, res, next) => {
   }
 };
 
+const refreshLogin = async (req, res, next) => {
+  const { _id } = req.body;
+
+  try {
+    const user = await User.findById(_id);
+
+    const token = await jwt.sign({ email: user.email, _id }, jwtSecretKey, { expiresIn: "7d" });
+    const expiresDate = new Date(Date.now() + 1 * 3600000);
+
+    const profile = {
+      _id: user._id,
+      name: user.name,
+      photoUrl: user.photoUrl,
+      likeMusic: user.likeMusic,
+      likeGenre: user.likeGenre,
+      token,
+    };
+
+    res
+      .status(200)
+      .cookie("user_token", token, { expiresIn: expiresDate, httpOnly: true })
+      .json({ result: "success", profile });
+  } catch {
+    next(createError(400, "로그아웃 되었습니다."));
+  }
+};
+
 const signup = async (req, res, next) => {
   const schema = Joi.object().keys({
     name: Joi.string()
@@ -174,7 +201,7 @@ const editProfileName = async (req, res, next) => {
     const { user_id } = req.params;
     const { name } = req.body;
 
-    await User.findByIdAndUpdate(user_id, { name });
+    await User.findByIdAndUpdate(user_id, { name }, { new: true });
 
     res
       .status(201)
@@ -189,7 +216,7 @@ const editProfilePhoto = async (req, res, next) => {
     const { user_id } = req.params;
     const { location } = req.file;
 
-    await User.findByIdAndUpdate(user_id, { photoUrl: location });
+    await User.findByIdAndUpdate(user_id, { photoUrl: location }, { new: true });
 
     res
       .status(201)
@@ -199,11 +226,34 @@ const editProfilePhoto = async (req, res, next) => {
   }
 };
 
+const editLikeGenre = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const { genres } = req.body;
+
+    await User.findByIdAndUpdate(user_id, {
+      $push: {
+        likeGenre: {
+          $each: genres,
+        },
+      },
+    });
+
+    res
+      .status(201)
+      .json({ result: "success", genres });
+  } catch {
+    next(createError(400, "좋아하는 장르 저장에 실패했습니다."));
+  }
+};
+
 module.exports = {
   localLogin,
   socialLogin,
+  refreshLogin,
   signup,
   logout,
   editProfileName,
   editProfilePhoto,
+  editLikeGenre,
 };
