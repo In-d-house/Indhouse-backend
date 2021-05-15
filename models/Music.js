@@ -24,7 +24,6 @@ const musicSchema = new mongoose.Schema({
   },
   likeUser: [{
     userId: { type: ObjectId, ref: "User", required: true },
-    createdAt: { type: Date, required: true },
   }],
 }, { timestamps: true });
 
