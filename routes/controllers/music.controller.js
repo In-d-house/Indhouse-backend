@@ -4,13 +4,43 @@ const Music = require("../../models/Music");
 const Artist = require("../../models/Artist");
 const Genre = require("../../models/Genre");
 
-const getRecommendMusicByGenre = async (req, res, next) => {
+const getMusicByLikeGenre = async (req, res, next) => {
   try {
     const { query } = req;
+    let option = [];
 
-    const option = Object.values(query)[0].map(value => ({
-      [Object.keys(query)[0]]: value,
-    }));
+    if (Array.isArray(query)) {
+      option = Object.values(query)[0].map(value => ({
+        [Object.keys(query)[0]]: value,
+      }));
+    } else {
+      option = [query];
+    }
+
+    const musics = await Music.find({
+      $or: option,
+    });
+
+    res
+      .status(200)
+      .json({ result: "success", musics });
+  } catch {
+    next(createError(400, "음악 정보를 가져오지 못했습니다."));
+  }
+};
+
+const getMusicByLikeMusic = async (req, res, next) => {
+  try {
+    const { query } = req;
+    let option = [];
+
+    if (Array.isArray(query)) {
+      option = Object.values(query)[0].map(value => ({
+        [Object.keys(query)[0]]: value,
+      }));
+    } else {
+      option = [query];
+    }
 
     const musics = await Music.find({
       $or: option,
@@ -122,7 +152,8 @@ const updateLikeUser = async (req, res, next) => {
 };
 
 module.exports = {
-  getRecommendMusicByGenre,
+  getMusicByLikeGenre,
+  getMusicByLikeMusic,
   createMusic,
   uploadCoverPhoto,
   updateLikeUser,
