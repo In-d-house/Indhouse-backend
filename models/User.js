@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   likeMusic: [{
     musicId: { type: ObjectId, ref: "Music", required: true },
-    createdAt: { type: String, required: true },
+    createdAt: { type: Date, required: true },
   }],
   likeGenre: [{
     genreId: { type: ObjectId, ref: "Genre", required: true },

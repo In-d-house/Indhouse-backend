@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const User = require("../../models/User");
+const Music = require("../../models/Music");
 
 const { jwtSecretKey, saltRound } = require("../../configs");
 
@@ -196,7 +197,7 @@ const logout = async (req, res, next) => {
   }
 };
 
-const editProfileName = async (req, res, next) => {
+const updateProfileName = async (req, res, next) => {
   try {
     const { user_id } = req.params;
     const { name } = req.body;
@@ -211,7 +212,7 @@ const editProfileName = async (req, res, next) => {
   }
 };
 
-const editProfilePhoto = async (req, res, next) => {
+const updateProfilePhoto = async (req, res, next) => {
   try {
     const { user_id } = req.params;
     const { location } = req.file;
@@ -226,7 +227,7 @@ const editProfilePhoto = async (req, res, next) => {
   }
 };
 
-const editLikeGenre = async (req, res, next) => {
+const updateLikeGenre = async (req, res, next) => {
   try {
     const { user_id } = req.params;
     const { genres } = req.body;
@@ -247,13 +248,83 @@ const editLikeGenre = async (req, res, next) => {
   }
 };
 
+const updateLikeMusic = async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+    const { type, musicId } = req.body;
+    let music = null;
+
+    if (type === "like") {
+      await User.findByIdAndUpdate(user_id, {
+        $push: {
+          likeMusic: { musicId, createdAt: new Date() },
+        },
+      });
+
+      music = await Music.findByIdAndUpdate(musicId, {
+        $push: {
+          likeUser: { userId: user_id },
+        },
+      });
+    }
+
+    if (type === "dislike") {
+      await User.findByIdAndUpdate(user_id, {
+        $pull: {
+          likeMusic: {
+            musicId: {
+              $eq: musicId,
+            },
+          },
+        },
+      });
+
+      music = await Music.findByIdAndUpdate(musicId, {
+        $pull: {
+          likeUser: {
+            userId: {
+              $eq: user_id,
+            },
+          },
+        },
+      });
+    }
+
+    res
+      .status(200)
+      .json({ result: "success", music });
+  } catch {
+    next(createError(400, "좋아하는 음악 업데이트에 실패했습니다."));
+  }
+};
+
+const getSampleUser = async (req, res, next) => {
+  try {
+    const { range } = req.query;
+
+    const users = await User.aggregate([{
+      $sample: {
+        size: Number(range),
+      },
+    }]);
+
+    res
+      .status(200)
+      .json({ result: "success", users });
+  } catch (err) {
+    next(createError(400, "유저 샘플 정보 받는데 실패했습니다."));
+  }
+};
+
 module.exports = {
   localLogin,
   socialLogin,
   refreshLogin,
   signup,
   logout,
-  editProfileName,
-  editProfilePhoto,
-  editLikeGenre,
+  updateProfileName,
+  updateProfilePhoto,
+  updateLikeGenre,
+  updateLikeMusic,
+  getSampleUser,
 };
