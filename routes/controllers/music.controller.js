@@ -29,7 +29,7 @@ const getMusicByLikeGenre = async (req, res, next) => {
   }
 };
 
-const getMusicByLikeMusic = async (req, res, next) => {
+const getMusicBySpecific = async (req, res, next) => {
   try {
     const { query } = req;
     let option = [];
@@ -153,7 +153,7 @@ const updateLikeUser = async (req, res, next) => {
 
 module.exports = {
   getMusicByLikeGenre,
-  getMusicByLikeMusic,
+  getMusicBySpecific,
   createMusic,
   uploadCoverPhoto,
   updateLikeUser,
