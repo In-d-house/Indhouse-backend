@@ -6,7 +6,7 @@ const verifyToken = require("./middlewares/authorization");
 const router = express.Router();
 
 router.get("/by-like-genre/:user_id", verifyToken, musicController.getMusicByLikeGenre);
-router.get("/by-like-music/:user_id", verifyToken, musicController.getMusicByLikeMusic);
+router.get("/by-specific/:user_id", verifyToken, musicController.getMusicBySpecific);
 router.post("/", musicController.createMusic);
 router.patch("/likeUser/:music_id/:user_id", musicController.updateLikeUser);
 router.patch("/cover-photo", uploadMusicCoverPhoto, musicController.uploadCoverPhoto);
