@@ -9,6 +9,7 @@ const authRouter = require("./routes/auth");
 const usersRouter = require("./routes/users");
 const musicsRouter = require("./routes/musics");
 const genresRouter = require("./routes/genre");
+const artistsRouter = require("./routes/artists");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/musics", musicsRouter);
 app.use("/genres", genresRouter);
+app.use("/artists", artistsRouter);
 
 app.use((req, res, next) => {
   next(createError(404));
