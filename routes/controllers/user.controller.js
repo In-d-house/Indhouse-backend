@@ -56,6 +56,7 @@ const localLogin = async (req, res, next) => {
       photoUrl: user.photoUrl,
       likeMusic: user.likeMusic,
       likeGenre: user.likeGenre,
+      createdAt: user.createdAt,
       token,
     };
 
@@ -91,6 +92,7 @@ const socialLogin = async (req, res, next) => {
       photoUrl: user.photoUrl,
       likeMusic: user.likeMusic,
       likeGenre: user.likeGenre,
+      createdAt: user.createdAt,
       token,
     };
 
@@ -118,6 +120,7 @@ const refreshLogin = async (req, res, next) => {
       photoUrl: user.photoUrl,
       likeMusic: user.likeMusic,
       likeGenre: user.likeGenre,
+      createdAt: user.createdAt,
       token,
     };
 
