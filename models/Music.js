@@ -22,6 +22,10 @@ const musicSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  youtubeUrl: {
+    type: String,
+    required: true,
+  },
   likeUser: [{
     userId: { type: ObjectId, ref: "User", required: true },
   }],
