@@ -4,12 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "bcrypt": "npm install bcrypt"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "aws-sdk": "^2.904.0",
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^9.0.0",
